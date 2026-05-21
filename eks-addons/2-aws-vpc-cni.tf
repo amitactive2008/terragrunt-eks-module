@@ -1,12 +1,12 @@
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name                = var.eks_name
   addon_name                  = "vpc-cni"
-  addon_version               = "v1.21.1-eksbuild.1" # Check for your EKS version
+  addon_version               = var.aws-vpc-cni-version
   resolve_conflicts_on_create = "OVERWRITE"
 }
 # 1. Create the IAM Role
 resource "aws_iam_role" "vpc_cni_role" {
-  name = "dev-demo-vpc-cni-role"
+  name = "${var.env}-${var.eks_name}-vpc-cni-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

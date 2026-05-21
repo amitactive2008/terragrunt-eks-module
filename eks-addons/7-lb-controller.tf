@@ -10,7 +10,7 @@ resource "aws_iam_policy" "remote_json_policy" {
 # Create the IAM Role for the Controller
 resource "aws_iam_role" "aws_lbc" {
   count = var.enable_lb_controller ? 1 : 0
-  name = "aws-load-balancer-controller"
+  name = "${var.env}-${var.eks_name}-aws-lbc-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -74,11 +74,11 @@ set = [
   },
     {
     name  = "vpcId"
-    value = "dev-main"
+    value = var.vpc_id
   },
     {
     name  = "region"
-    value = "us-east-1"
+    value = var.aws_region
   }
 ]
   # Ensure association is active before the pods start
